@@ -1,0 +1,42 @@
+itprojecylab@itprojecylab-ThinkCentre-M71e:~$ cassandra/bin/cqlsh
+Connected to Test Cluster at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 2.1.11 | CQL spec 3.2.1 | Native protocol v3]
+Use HELP for help.
+cqlsh> create keyspace mykeyspace
+   ... with replication = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+cqlsh> use mykeyspace
+   ... ;
+cqlsh:mykeyspace> create table student (
+              ... roll int primary key,
+              ... fname text,
+              ... lname text
+              ... );
+cqlsh:mykeyspace> insert into student (roll, fname, lname) values (1, 'akash', 'hundiwala');
+cqlsh:mykeyspace> insert into student (roll, fname, lname) values (2, 'saksham', 'Arora');
+cqlsh:mykeyspace> insert into student (roll, fname, lname) values (3, 'roshan', 'S');
+cqlsh:mykeyspace> select * from student;
+
+ roll | fname   | lname
+------+---------+-----------
+    1 |   akash | hundiwala
+    2 | saksham |     Arora
+    3 |  roshan |         S
+
+(3 rows)
+cqlsh:mykeyspace> create index on student(fname);
+cqlsh:mykeyspace> select * from student where fname='saksham';
+
+ roll | fname   | lname
+------+---------+-------
+    2 | saksham | Arora
+
+(1 rows)
+
+cqlsh:mykeyspace> select * from student where roll= 1;
+
+ roll | fname | lname
+------+-------+-----------
+    1 | akash | hundiwala
+
+(1 rows)
+cqlsh:mykeyspace> 
